@@ -1,0 +1,20 @@
+{
+  "name": "hyper-browser-universal-id",
+  "version": "1.0.0",
+  "description": "Generate a unique token for a browser's current settings and check for significant changes between sessions.",
+  "main": "dist/index.js",
+  "author": {
+    "name": "srbalbucio",
+    "email": "devteam@hyperpowered.com.br",
+    "url": "https://hyperpowered.net"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.5.3"
+  },
+  "private": false
+}

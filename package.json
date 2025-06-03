@@ -10,7 +10,8 @@
   },
   "license": "MIT",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "deploy": "tsc && npm publish"
   },
   "dependencies": {},
   "devDependencies": {

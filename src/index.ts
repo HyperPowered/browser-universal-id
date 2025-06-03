@@ -25,6 +25,7 @@ interface FingerprintResult {
 }
 
 async function getBrowserFingerprint(): Promise<FingerprintResult> {
+    // alguns itens aqui podem simplesmente não existir, mas o principal tá em cima e já serve.
     const fingerprintData: FingerprintData = {
         userAgent: navigator.userAgent,
         language: navigator.language,
@@ -40,7 +41,7 @@ async function getBrowserFingerprint(): Promise<FingerprintResult> {
             memory: navigator.deviceMemory || 'unknown'
         },
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        plugins: Array.from(navigator.plugins || []).map(p => p.name).join(','),
+        plugins: Array.from(navigator.plugins || []).map(p => p.name.trim().replace(",", "")).join(','),
         features: {
             webgl: typeof WebGLRenderingContext !== 'undefined',
             webrtc: typeof RTCPeerConnection !== 'undefined',

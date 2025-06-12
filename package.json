@@ -1,6 +1,6 @@
 {
-  "name": "hyper-browser-universal-id",
-  "version": "1.0.0",
+  "name": "@hyperpowered/hyper-browser-universal-id",
+  "version": "1.0.1",
   "description": "Generate a unique token for a browser's current settings and check for significant changes between sessions.",
   "main": "dist/index.js",
   "author": {

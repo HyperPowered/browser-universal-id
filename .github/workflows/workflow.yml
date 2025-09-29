@@ -1,0 +1,71 @@
+name: CI & Publish (Hyper NPM)
+
+on:
+  push:
+    branches: [ master ]
+    tags:
+      - 'v*.*.*'  # publica ao criar uma tag semântica
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: '20'
+  NPM_REGISTRY: 'https://npm.dev.hyperpowered.net'
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 20 ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "pnpm"
+
+      - name: Configure .npmrc (registry + auth)
+        run: |
+          cat > ~/.npmrc <<EOF
+          registry=${{ env.NPM_REGISTRY }}
+          always-auth=true
+          //npm.dev.hyperpowered.net/:_authToken=${NPM_TOKEN}
+          EOF
+        env:
+          NPM_TOKEN: ${{ secrets.HYPER_NPM_TOKEN }}
+
+      - name: Install
+        run: pnpm install
+
+      - name: Build (tsc)
+        run: pnpm build
+
+      - name: Save build artifact
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: |
+            dist
+            package.json
+            package-lock.json
+            README.md
+            LICENSE
+            .npmrc
+          if-no-files-found: ignore
+      - name: Publish to Hyper NPM
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.HYPER_NPM_TOKEN }}
+        run: |
+          npm publish

@@ -22,9 +22,8 @@
     "build": "tsc",
     "deploy": "tsc && npm publish"
   },
-  "dependencies": {},
   "devDependencies": {
-    "typescript": "^5.5.3"
+    "typescript": "^5.9.2"
   },
   "private": false
 }

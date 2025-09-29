@@ -25,5 +25,8 @@
   "devDependencies": {
     "typescript": "^5.9.2"
   },
-  "private": false
+  "private": false,
+  "publishConfig": {
+    "registry": "https://npm.dev.hyperpowered.net"
+  }
 }

@@ -24,7 +24,7 @@ interface FingerprintResult {
     data: FingerprintData;
 }
 
-async function getBrowserFingerprint(): Promise<FingerprintResult> {
+async function getBrowserFingerprint(extraEntries?: Record<string, string>[]): Promise<FingerprintResult> {
     // alguns itens aqui podem simplesmente não existir, mas o principal tá em cima e já serve.
     const fingerprintData: FingerprintData = {
         userAgent: navigator.userAgent,
@@ -47,6 +47,11 @@ async function getBrowserFingerprint(): Promise<FingerprintResult> {
             webrtc: typeof RTCPeerConnection !== 'undefined',
         }
     };
+
+    extraEntries?.forEach(entry => {
+        let {key, value} = entry;
+        (fingerprintData as any)[key] = value;
+    });
 
     const str = JSON.stringify(fingerprintData);
     const hash = await sha256(str);
